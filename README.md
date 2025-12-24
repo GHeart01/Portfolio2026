@@ -1,6 +1,7 @@
-My personal website
+ ♁ Greetings from Earth 🜃
 ===================
 
+geraltheart.com
 Here is my personal website. I hope you enjoy it. Please let me know if you have suggestions
 
 About me
@@ -12,7 +13,7 @@ About me
 * Ask me about BG3, I'd love to talk
 * Add me on social, I accept everyone
 
-Communication
+Talk to me!
 ===================
 
 * emailme@geraltheart.com
