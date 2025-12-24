@@ -1,7 +1,7 @@
  ♁ Greetings from Earth 🜃
 ===================
 
-(geraltheart.com)
+[geraltheart.com](https://geraltheart.com)
 
 Here is my personal website. I hope you enjoy it. Please let me know if you have suggestions
 
