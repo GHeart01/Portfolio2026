@@ -10,7 +10,7 @@ main {
   z-index: 99;
   width: 100%;
   margin: 0px auto;
-  padding 120px 0px;
+  padding: 120px 0px;
 
   display: grid;
   grid-template-columns: repeat(12, 1fr);

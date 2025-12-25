@@ -4,10 +4,9 @@ import * as THREE from 'three';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+// scene camera renderer setup
 const scene  = new THREE.Scene();
-
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
-
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
@@ -50,6 +49,18 @@ function addStar() {
   // const [x, y, z] = Array(3).fill().map(() => THREE.random() * 100 - 50);
   star.position.set(x, y, z);
   scene.add(star);
+
+  // star movement animation
+  function starAnimate() {
+    requestAnimationFrame(starAnimate);
+    star.position.z += 0.1;
+    if (star.position.z > 50) {
+      star.position.z = -50;
+  }
+  }
+  starAnimate();
+
+  controls.update();
 }
 
 Array(100).fill().forEach(addStar);
@@ -81,7 +92,9 @@ function animate() {
   torusKnot.rotation.z += 0.001; // Rotate the torus knot on the z-axis
   renderer.render(scene, camera);
 
+
   controls.update();
 }
 
 animate()
+
