@@ -4,6 +4,11 @@ import * as THREE from 'three';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+// bloom effect
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+
 // scene camera renderer setup
 const scene  = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
@@ -20,8 +25,10 @@ renderer.render(scene, camera);
 const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 10 );
 const material = new THREE.MeshToonMaterial( { color: 0x00e1ff, wireframe: true } );
 const torusKnot = new THREE.Mesh( geometry, material );
-scene.add( torusKnot );
+// scene.add( torusKnot );
 
+// allow user to move around the scene
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // lighting
 const pointLight = new THREE.PointLight(0xffffff);
@@ -35,14 +42,14 @@ const gridHelper = new THREE.GridHelper(200, 50);
 // scene.add(lightHelper)
 // scene.add(lightHelper, gridHelper);
 
-// allow user to move around the scene
 
-const controls = new OrbitControls(camera, renderer.domElement);
 
 // add stars
 function addStar() {
-  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-  const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+
+
+  const geometry = new THREE.SphereGeometry(0.1, 24, 24); // radius, widthSegments, heightSegments
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff }); // white color
   const star = new THREE.Mesh(geometry, material);
   
   const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
@@ -54,7 +61,7 @@ function addStar() {
   function starAnimate() {
     requestAnimationFrame(starAnimate);
     star.position.z += 0.1;
-    if (star.position.z > 50) {
+    if (star.position.z > 60) {
       star.position.z = -50;
   }
   }
@@ -63,7 +70,7 @@ function addStar() {
   controls.update();
 }
 
-Array(100).fill().forEach(addStar);
+Array(200).fill().forEach(addStar);
 
 // manage scrolling
 
@@ -98,3 +105,12 @@ function animate() {
 
 animate()
 
+// keep composer size up to date
+window.addEventListener('resize', () => {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  bloomComposer.setSize(w, h);
+});
