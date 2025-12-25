@@ -6,4 +6,23 @@ canvas {
 
 main {
   position: absolute;
+  width: 100vw;
+  z-index: 99;
+  width: 100%;
+  margin: 0px auto;
+  padding 120px 0px;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+}
+header {
+  color: white;
+  grid-column: 6 / span 10;
+  grid-row: 10 / span 1;
+
+}
+
+section {
+  grid-column: 2 / span 10;
 }
