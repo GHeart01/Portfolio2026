@@ -33,13 +33,14 @@ scene.add(pointLight, ambientLight);
 
 const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(lightHelper)
-scene.add(lightHelper, gridHelper);
+// scene.add(lightHelper)
+// scene.add(lightHelper, gridHelper);
 
 // allow user to move around the scene
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+// add stars
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
   const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
@@ -52,6 +53,25 @@ function addStar() {
 }
 
 Array(100).fill().forEach(addStar);
+
+// manage scrolling
+
+function moveCamera() {
+  const t = document.body.getBoundingClientRect().top;
+  torusKnot.rotation.x += 0.05;
+  torusKnot.rotation.y += 0.075;
+  torusKnot.rotation.z += 0.05;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.position.y = t * -0.0002;
+}
+
+document.body.onscroll = moveCamera;
+
+
+
+// animation loop for torus
 
 function animate() {
   requestAnimationFrame(animate);
