@@ -4,14 +4,14 @@ canvas {
   left: 0;
 }
 
-/* custom font from public folder */
+/* custom font from public folder
 @font-face {
   font-family: 'SFMonoCustom';
   src: url('/sf-mono-cufonfonts-webfont/SFMonoRegular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 /* apply custom font site-wide */
 html, body {
