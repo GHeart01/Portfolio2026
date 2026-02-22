@@ -5,6 +5,41 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
+//easter egg
+const brand = `
+██╗  ██╗███████╗ █████╗ ██████╗ ████████╗
+██║  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝
+███████║█████╗  ███████║██████╔╝   ██║   
+██╔══██║██╔══╝  ██╔══██║██╔══██╗   ██║   
+██║  ██║███████╗██║  ██║██║  ██║   ██║   
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+`;
+
+console.log(
+  `%c${brand}`,
+  `color: #00ffcc;
+   font-weight: bold;
+   font-family: monospace;
+   line-height: 1.2;
+  `
+);
+const socials = `
+╔═ Socials ═══════════════╗
+║ Mail           
+⇒ geraltheart01@gmail.com
+║ GitHub         ⇒ https://github.com/GHeart01
+║ LinkedIn       ⇒ https://www.linkedin.com/in/geraltheart001
+╚═══════════════════════╝
+`;
+console.log(
+    `%c${socials}`,
+    `color: #00ffcc;
+    font-weight: bold;
+    font-family: monospace;
+    line-height: 1.2;
+    `
+)
+
 console.log('Geralt Heart')
 
 // Overlay text
@@ -22,7 +57,6 @@ overlay.style.cssText = `
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 `
 overlay.innerHTML = 'This is a website in progress, please be patient<br>FEB 22 2026'
-console.log('test')
 document.body.appendChild(overlay)
 
 
@@ -30,7 +64,21 @@ document.body.appendChild(overlay)
  * Base
  */
 // Debug
-const gui = new GUI()
+const gui = new GUI({
+    width: 340,
+    title: 'Press "h" to hide me',
+    closeFolders: false
+}
+)
+// gui.close()
+gui.hide()
+window.addEventListener('keydown', () =>
+{
+    if(event.key == 'h')
+        gui.show(gui._hidden)
+
+})
+const debugObject = {}
 
 
 // Canvas
