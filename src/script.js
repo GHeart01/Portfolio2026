@@ -23,6 +23,7 @@ console.log(
    line-height: 1.2;
   `
 );
+
 const socials = `
 ╔═ Socials ═══════════════╗
 ║ Mail           
