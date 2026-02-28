@@ -96,6 +96,9 @@ const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
 matcapTexture.colorSpace = THREE.SRGBColorSpace
 // console.log(matcapTexture)
 
+const heartmatcapTexture = textureLoader.load('/textures/matcaps/4.png')
+heartmatcapTexture.colorSpace = THREE.SRGBColorSpace
+
 
 /**
  * Fonts
@@ -143,31 +146,91 @@ fontLoader.load(
         const text = new THREE.Mesh(textGeometry, material) 
         scene.add(text)
 
-        console.time('donut')
 
-        const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-        // const donutMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
+        console.time('heart')
+        // ❤️ Create shape
+        const heartShape = new THREE.Shape()
+
+        heartShape.moveTo(0, 0)
+        heartShape.bezierCurveTo(0, 0, -1, -1, -2, 0)
+        heartShape.bezierCurveTo(-3, 1.5, -1.5, 3.5, 0, 4)
+        heartShape.bezierCurveTo(1.5, 3.5, 3, 1.5, 2, 0)
+        heartShape.bezierCurveTo(1, -1, 0, 0, 0, 0)
+
+        const extrudeSettings = {
+            depth: 0.1,
+            bevelEnabled: true,
+            bevelSegments: 2,
+            steps: 2,
+            bevelSize: 0.05,
+            bevelThickness: 0.05
+        }
+
+        const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings)
+        const heartMaterial = new THREE.MeshMatcapMaterial({
+            matcap: heartmatcapTexture})
+        heartGeometry.center()
+
+        const heart = new THREE.Mesh(heartGeometry, heartMaterial)
+        heart.position.y = -1.5
+        heart.scale.set(.1,.1,.1)
+
+        scene.add(heart)
+
+
         for(let i = 0; i < 100; i++)
         {
             
-            const donut = new THREE.Mesh(donutGeometry, material)
+            const hearts = new THREE.Mesh(heartGeometry, heartMaterial)
 
             // Randomly Position all the torus around the scene
-            donut.position.x = (Math.random() - 0.5) * 10
-            donut.position.y = (Math.random() - 0.5) * 10
-            donut.position.z = (Math.random() - 0.5) * 10
+            hearts.position.x = (Math.random() - 0.5) * 10
+            hearts.position.y = (Math.random() - 0.5) * 10
+            hearts.position.z = (Math.random() - 0.5) * 10
 
-            donut.rotation.x = Math.random() * Math.PI
-            donut.rotation.y = Math.random() * Math.PI
+            hearts.rotation.x = Math.random() * Math.PI
+            hearts.rotation.y = Math.random() * Math.PI
 
-            const scaler = Math.random()
+            const scaler = Math.random() * .1
             // donut.scale.x = scaler
             // donut.scale.y = scaler
             // donut.scale.z = scaler
-            donut.scale.set(scaler,scaler,scaler)
-            scene.add(donut)
+            hearts.scale.set(scaler,scaler,scaler)
+            scene.add(hearts)
         }
-        console.timeEnd('donut')
+        console.timeEnd('heart')
+
+
+
+
+    //     console.time('donut')
+
+    //     const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+
+
+
+    //     // const donutMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
+    //     for(let i = 0; i < 100; i++)
+    //     {
+            
+    //         const donut = new THREE.Mesh(donutGeometry, material)
+
+    //         // Randomly Position all the torus around the scene
+    //         donut.position.x = (Math.random() - 0.5) * 10
+    //         donut.position.y = (Math.random() - 0.5) * 10
+    //         donut.position.z = (Math.random() - 0.5) * 10
+
+    //         donut.rotation.x = Math.random() * Math.PI
+    //         donut.rotation.y = Math.random() * Math.PI
+
+    //         const scaler = Math.random()
+    //         // donut.scale.x = scaler
+    //         // donut.scale.y = scaler
+    //         // donut.scale.z = scaler
+    //         donut.scale.set(scaler,scaler,scaler)
+    //         scene.add(donut)
+    //     }
+    //     console.timeEnd('donut')
         
     }
 )
