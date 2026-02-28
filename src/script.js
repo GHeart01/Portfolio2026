@@ -57,7 +57,7 @@ overlay.style.cssText = `
     z-index: 999;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 `
-overlay.innerHTML = 'This is a website in progress, please be patient<br>FEB 22 2026'
+overlay.innerHTML = 'This is a website in progress, please be patient<br>FEB 28 2026'
 document.body.appendChild(overlay)
 
 
