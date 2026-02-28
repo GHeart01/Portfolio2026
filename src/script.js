@@ -92,7 +92,7 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
+const matcapTexture = textureLoader.load('/textures/matcaps/5.png')
 matcapTexture.colorSpace = THREE.SRGBColorSpace
 // console.log(matcapTexture)
 
@@ -138,8 +138,9 @@ fontLoader.load(
         console.log(textGeometry.boundingBox)
 
 
-        // const textMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
+        // const textMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
         const material = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
+    
 
         // textMaterial.matcap = matcapTexture
         // textMaterial.wireframe = true
@@ -160,9 +161,9 @@ fontLoader.load(
         const extrudeSettings = {
             depth: 0.1,
             bevelEnabled: true,
-            bevelSegments: 2,
-            steps: 2,
-            bevelSize: 0.05,
+            bevelSegments: 10,
+            steps: 3,
+            bevelSize: 0.1,
             bevelThickness: 0.05
         }
 
@@ -199,41 +200,18 @@ fontLoader.load(
             scene.add(hearts)
         }
         console.timeEnd('heart')
-
-
-
-
-    //     console.time('donut')
-
-    //     const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-
-
-
-    //     // const donutMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
-    //     for(let i = 0; i < 100; i++)
-    //     {
-            
-    //         const donut = new THREE.Mesh(donutGeometry, material)
-
-    //         // Randomly Position all the torus around the scene
-    //         donut.position.x = (Math.random() - 0.5) * 10
-    //         donut.position.y = (Math.random() - 0.5) * 10
-    //         donut.position.z = (Math.random() - 0.5) * 10
-
-    //         donut.rotation.x = Math.random() * Math.PI
-    //         donut.rotation.y = Math.random() * Math.PI
-
-    //         const scaler = Math.random()
-    //         // donut.scale.x = scaler
-    //         // donut.scale.y = scaler
-    //         // donut.scale.z = scaler
-    //         donut.scale.set(scaler,scaler,scaler)
-    //         scene.add(donut)
-    //     }
-    //     console.timeEnd('donut')
         
     }
 )
+
+/**
+ * Lights
+ */
+
+// const rectAreaLight = new THREE.RectAreaLight(0xffffff, 10, 1 ,1)
+// rectAreaLight.position.set(-1.5, 0, 1.5)
+// rectAreaLight.lookAt(new THREE.Vector3())
+// scene.add(rectAreaLight)
 
 /**
  * Axes Helper
