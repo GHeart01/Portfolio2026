@@ -92,11 +92,11 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('/textures/matcaps/5.png')
+const matcapTexture = textureLoader.load('/textures/matcaps/11.jpg')
 matcapTexture.colorSpace = THREE.SRGBColorSpace
 // console.log(matcapTexture)
 
-const heartmatcapTexture = textureLoader.load('/textures/matcaps/4.png')
+const heartmatcapTexture = textureLoader.load('/textures/matcaps/12.jpg')
 heartmatcapTexture.colorSpace = THREE.SRGBColorSpace
 
 
