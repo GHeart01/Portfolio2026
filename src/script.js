@@ -190,6 +190,7 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
 
     const heart = new THREE.Mesh(heartGeometry, heartMaterial);
     heart.position.y = -1.5;
+    
     heart.scale.set(0.1, 0.1, 0.1);
     scene.add(heart);
 
@@ -203,6 +204,7 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
         h.rotation.x = Math.random() * Math.PI;
         h.rotation.y = Math.random() * Math.PI;
         const scaler = Math.random() * 0.1;
+        h.position.z = -5 * Math.random()
         h.scale.set(scaler, scaler, scaler);
         scene.add(h);
     }
