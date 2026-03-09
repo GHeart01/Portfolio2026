@@ -25,18 +25,62 @@ const socials = `
 ╚═══════════════════════╝
 `;
 console.log(`%c${socials}`, `color: #00ffcc; font-weight: bold; font-family: monospace; line-height: 1.2;`);
-console.log('Geralt');
+// console.log('Geralt');
+
+
+// ─── About Me Panel ───────────────────────────────────────────────────────────
+const aboutPanel = document.createElement('div');
+aboutPanel.style.cssText = `
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: min(600px, 90vw);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-bottom: none;
+    border-radius: 16px 16px 0 0;
+    color: white;
+    font-family: helvetica, arial, sans-serif;
+    padding: 32px;
+    z-index: 1000;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+`;
+
+aboutPanel.innerHTML = `
+    <h2 style="margin: 0 0 12px; font-size: 1.4rem; color: #00ff88; letter-spacing: 0.1em;">ABOUT ME</h2>
+    <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(255,255,255,0.85);">
+        Hi, I'm Geralt — a CS grad student at CU Boulder specializing in machine learning.
+        I build things at the intersection of math, code, and visual systems. 
+    </p>
+    <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(207, 221, 228, 0.85);">
+    This page is still a work in progress, but please come by again to see my progress! 
+    </p>
+    <p style="margin: 0; line-height: 1.7; color: rgba(255,255,255,0.65); font-size: 0.9rem;">
+        Python · TensorFlow · Three.js · RLHF · Applied Mathematics
+    </p>
+
+`;
+
+document.body.appendChild(aboutPanel);
+
+// Trigger slide-up after a short delay
+setTimeout(() => {
+    aboutPanel.style.transform = 'translateX(-50%) translateY(0%)';
+}, 800);
 
 // ─── Overlay ──────────────────────────────────────────────────────────────────
-const overlay = document.createElement('div');
-overlay.style.cssText = `
-    position: fixed; top: 16px; left: 16px; color: white;
-    font-family: helvetica, arial, sans-serif; font-size: 20px;
-    line-height: 1.5; pointer-events: none; z-index: 999;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-`;
-overlay.innerHTML = 'This is a website in progress, please be patient<br>MAR 08 2026';
-document.body.appendChild(overlay);
+// const overlay = document.createElement('div');
+// overlay.style.cssText = `
+//     position: fixed; top: 16px; left: 16px; color: white;
+//     font-family: helvetica, arial, sans-serif; font-size: 20px;
+//     line-height: 1.5; pointer-events: none; z-index: 999;
+//     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+// `;
+// overlay.innerHTML = 'This is a website in progress, please be patient<br>MAR 08 2026';
+// document.body.appendChild(overlay);
 
 // ─── Debug GUI ────────────────────────────────────────────────────────────────
 const gui = new GUI({ width: 340, title: 'Press "h" to hide me', closeFolders: false });
@@ -65,7 +109,7 @@ window.addEventListener('resize', () => {
 
 // ─── Camera ───────────────────────────────────────────────────────────────────
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(1, 1, 2);
+camera.position.set(0.5, 1, 1.5);
 scene.add(camera);
 
 const controls = new OrbitControls(camera, canvas);
@@ -196,6 +240,7 @@ for (let i = 0; i < PARTICLE_COUNT; i++) {
 // ─── Axes Helper ──────────────────────────────────────────────────────────────
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper);
+axesHelper.visible = false
 
 // ─── Tick / Animate ───────────────────────────────────────────────────────────
 const clock = new THREE.Clock();
