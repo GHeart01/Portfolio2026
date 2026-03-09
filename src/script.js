@@ -1,11 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import GUI from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
-import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
-//easter egg
+// ─── Easter Egg ───────────────────────────────────────────────────────────────
 const brand = `
 ██╗  ██╗███████╗ █████╗ ██████╗ ████████╗
 ██║  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝
@@ -14,285 +16,276 @@ const brand = `
 ██║  ██║███████╗██║  ██║██║  ██║   ██║   
 ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
 `;
-
-console.log(
-  `%c${brand}`,
-  `color: #00ffcc;
-   font-weight: bold;
-   font-family: monospace;
-   line-height: 1.2;
-  `
-);
-
+console.log(`%c${brand}`, `color: #00ffcc; font-weight: bold; font-family: monospace; line-height: 1.2;`);
 const socials = `
 ╔═ Socials ═══════════════╗
-║ Mail           
-⇒ geraltheart01@gmail.com
+║ Mail           ⇒ geraltheart01@gmail.com
 ║ GitHub         ⇒ https://github.com/GHeart01
 ║ LinkedIn       ⇒ https://www.linkedin.com/in/geraltheart001
 ╚═══════════════════════╝
 `;
-console.log(
-    `%c${socials}`,
-    `color: #00ffcc;
-    font-weight: bold;
-    font-family: monospace;
-    line-height: 1.2;
-    `
-)
+console.log(`%c${socials}`, `color: #00ffcc; font-weight: bold; font-family: monospace; line-height: 1.2;`);
+console.log('Geralt');
 
-console.log('Geralt Heart')
-
-// Overlay text
-const overlay = document.createElement('div')
+// ─── Overlay ──────────────────────────────────────────────────────────────────
+const overlay = document.createElement('div');
 overlay.style.cssText = `
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    color: white;
-    font-family: helvetica, arial, sans-serif;
-    font-size: 20px;
-    line-height: 1.5;
-    pointer-events: none;
-    z-index: 999;
+    position: fixed; top: 16px; left: 16px; color: white;
+    font-family: helvetica, arial, sans-serif; font-size: 20px;
+    line-height: 1.5; pointer-events: none; z-index: 999;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-`
-overlay.innerHTML = 'This is a website in progress, please be patient<br>FEB 28 2026'
-document.body.appendChild(overlay)
+`;
+overlay.innerHTML = 'This is a website in progress, please be patient<br>MAR 08 2026';
+document.body.appendChild(overlay);
 
+// ─── Debug GUI ────────────────────────────────────────────────────────────────
+const gui = new GUI({ width: 340, title: 'Press "h" to hide me', closeFolders: false });
+gui.hide();
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'h') gui.show(gui._hidden);
+});
+const debugObject = {};
 
-/**
- * Base
- */
-// Debug
-const gui = new GUI({
-    width: 340,
-    title: 'Press "h" to hide me',
-    closeFolders: false
-}
-)
-// gui.close()
-gui.hide()
-window.addEventListener('keydown', () =>
-{
-    if(event.key == 'h')
-        gui.show(gui._hidden)
+// ─── Core Setup ───────────────────────────────────────────────────────────────
+const canvas = document.querySelector('canvas.webgl');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000000, 0.008);
 
+const sizes = { width: window.innerWidth, height: window.innerHeight };
+
+window.addEventListener('resize', () => {
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    composer.setSize(sizes.width, sizes.height);
+});
+
+// ─── Camera ───────────────────────────────────────────────────────────────────
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+camera.position.set(1, 1, 2);
+scene.add(camera);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
+// ─── Renderer ─────────────────────────────────────────────────────────────────
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+// ─── Post-Processing (Bloom) ──────────────────────────────────────────────────
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(sizes.width, sizes.height),
+    1.5, 0.4, 0.85
+);
+bloomPass.strength = 1.8;
+bloomPass.radius = 0.4;
+bloomPass.threshold = 0;
+composer.addPass(bloomPass);
+
+// ─── Textures ─────────────────────────────────────────────────────────────────
+const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load('/textures/matcaps/11.jpg');
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
+const heartmatcapTexture = textureLoader.load('/textures/matcaps/12.jpg');
+heartmatcapTexture.colorSpace = THREE.SRGBColorSpace;
+
+// ─── Light ────────────────────────────────────────────────────
+const ambientLight = new THREE.AmbientLight()
+scene.add(ambientLight)
+
+// ─── Fonts + Text + Hearts ────────────────────────────────────────────────────
+const fontLoader = new FontLoader();
+fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+    const textGeometry = new TextGeometry('Geralt \n Heart', {
+        font,
+        size: 0.5,
+        depth: 0.2,
+        curveSegments: 5,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.02,
+        bevelOffset: 0,
+        bevelSegments: 3
+    });
+    textGeometry.center();
+
+    const material = new THREE.MeshMatcapMaterial({ 
+    matcap: matcapTexture,
+    color: 0x888888  // grey tint darkens it; lower hex = darker
 })
-const debugObject = {}
 
+//     const material = new THREE.MeshStandardMaterial({
+//     color: 0xffffff,
+//     roughness: 0.6,   // 0 = mirror, 1 = fully matte
+//     metalness: 0.2    // 0 = plastic, 1 = full metal
+// })
+    const text = new THREE.Mesh(textGeometry, material);
+    scene.add(text);
 
-// Canvas
-const canvas = document.querySelector('canvas.webgl')
+    // Heart shape
+    const heartShape = new THREE.Shape();
+    heartShape.moveTo(0, 0);
+    heartShape.bezierCurveTo(0, 0, -1, -1, -2, 0);
+    heartShape.bezierCurveTo(-3, 1.5, -1.5, 3.5, 0, 4);
+    heartShape.bezierCurveTo(1.5, 3.5, 3, 1.5, 2, 0);
+    heartShape.bezierCurveTo(1, -1, 0, 0, 0, 0);
 
-// Scene
-const scene = new THREE.Scene()
+    const extrudeSettings = {
+        depth: 0.1, bevelEnabled: true, bevelSegments: 10,
+        steps: 3, bevelSize: 0.1, bevelThickness: 0.05
+    };
+    const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+    const heartMaterial = new THREE.MeshMatcapMaterial({ matcap: heartmatcapTexture });
+    heartGeometry.center();
 
-/**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('/textures/matcaps/11.jpg')
-matcapTexture.colorSpace = THREE.SRGBColorSpace
-// console.log(matcapTexture)
+    const heart = new THREE.Mesh(heartGeometry, heartMaterial);
+    heart.position.y = -1.5;
+    heart.scale.set(0.1, 0.1, 0.1);
+    scene.add(heart);
 
-const heartmatcapTexture = textureLoader.load('/textures/matcaps/12.jpg')
-heartmatcapTexture.colorSpace = THREE.SRGBColorSpace
-
-
-/**
- * Fonts
- */
-const fontLoader = new FontLoader()
-
-fontLoader.load(
-    '/fonts/helvetiker_regular.typeface.json',
-    (font) =>
-    {
-        // console.log('font loaded')
-        const textGeometry = new TextGeometry(
-            'Geralt Heart',
-            {
-                font: font,// can also do: font
-                size: 0.5,
-                depth: 0.2,
-                curveSegments: 5,
-                bevelEnabled: true,
-                bevelThickness: 0.03,
-                bevelSize: 0.02,
-                bevelOffset: 0,
-                bevelSegments: 3
-            }
-        )
-
-        // textGeometry.computeBoundingBox()
-        // textGeometry.translate(
-        //     (textGeometry.boundingBox.max.x - 0.02) * -0.5,
-        //     (textGeometry.boundingBox.max.y - 0.03) * -0.5,
-        //     (textGeometry.boundingBox.max.z - 0.03) * -0.5
-
-        // )
-        // textGeometry.computeBoundingBox()
-        // console.log(textGeometry.boundingBox)
-        textGeometry.center()
-        console.log(textGeometry.boundingBox)
-
-
-        // const textMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
-        const material = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
-    
-
-        // textMaterial.matcap = matcapTexture
-        // textMaterial.wireframe = true
-        const text = new THREE.Mesh(textGeometry, material) 
-        scene.add(text)
-
-
-        console.time('heart')
-        // ❤️ Create shape
-        const heartShape = new THREE.Shape()
-
-        heartShape.moveTo(0, 0)
-        heartShape.bezierCurveTo(0, 0, -1, -1, -2, 0)
-        heartShape.bezierCurveTo(-3, 1.5, -1.5, 3.5, 0, 4)
-        heartShape.bezierCurveTo(1.5, 3.5, 3, 1.5, 2, 0)
-        heartShape.bezierCurveTo(1, -1, 0, 0, 0, 0)
-
-        const extrudeSettings = {
-            depth: 0.1,
-            bevelEnabled: true,
-            bevelSegments: 10,
-            steps: 3,
-            bevelSize: 0.1,
-            bevelThickness: 0.05
-        }
-
-        const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings)
-        const heartMaterial = new THREE.MeshMatcapMaterial({
-            matcap: heartmatcapTexture})
-        heartGeometry.center()
-
-        const heart = new THREE.Mesh(heartGeometry, heartMaterial)
-        heart.position.y = -1.5
-        heart.scale.set(.1,.1,.1)
-
-        scene.add(heart)
-
-
-        for(let i = 0; i < 100; i++)
-        {
-            
-            const hearts = new THREE.Mesh(heartGeometry, heartMaterial)
-
-            // Randomly Position all the torus around the scene
-            hearts.position.x = (Math.random() - 0.5) * 10
-            hearts.position.y = (Math.random() - 0.5) * 10
-            hearts.position.z = (Math.random() - 0.5) * 10
-
-            hearts.rotation.x = Math.random() * Math.PI
-            hearts.rotation.y = Math.random() * Math.PI
-
-            const scaler = Math.random() * .1
-            // donut.scale.x = scaler
-            // donut.scale.y = scaler
-            // donut.scale.z = scaler
-            hearts.scale.set(scaler,scaler,scaler)
-            scene.add(hearts)
-        }
-        console.timeEnd('heart')
-        
+    for (let i = 0; i < 100; i++) {
+        const h = new THREE.Mesh(heartGeometry, heartMaterial);
+        h.position.set(
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10
+        );
+        h.rotation.x = Math.random() * Math.PI;
+        h.rotation.y = Math.random() * Math.PI;
+        const scaler = Math.random() * 0.1;
+        h.scale.set(scaler, scaler, scaler);
+        scene.add(h);
     }
-)
+});
 
-/**
- * Lights
- */
+// ─── Fourier Particle Swarm ───────────────────────────────────────────────────
+const PARTICLE_COUNT = 5000;
+const SPEED_MULT = 0.2;
 
-// const rectAreaLight = new THREE.RectAreaLight(0xffffff, 10, 1 ,1)
-// rectAreaLight.position.set(-1.5, 0, 1.5)
-// rectAreaLight.lookAt(new THREE.Vector3())
-// scene.add(rectAreaLight)
+const fourierGeo = new THREE.TetrahedronGeometry(0.25);
+const fourierMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const fourierMesh = new THREE.InstancedMesh(fourierGeo, fourierMat, PARTICLE_COUNT);
+fourierMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
 
-/**
- * Axes Helper
- */
+// Place the Fourier swarm slightly behind the main scene so it doesn't clash
+fourierMesh.position.z = -5;
 
-const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper)
+scene.add(fourierMesh);
 
-/**
- * Object
- */
-// const cube = new THREE.Mesh(
-//     new THREE.BoxGeometry(1, 1, 1),
-//     new THREE.MeshBasicMaterial()
-// )
+// Pre-allocate per-particle state
+const particlePositions = [];
+const _dummy = new THREE.Object3D();
+const _target = new THREE.Vector3();
+const _color = new THREE.Color();
 
-// scene.add(cube)
-
-/**
- * Sizes
- */
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particlePositions.push(new THREE.Vector3(
+        (Math.random() - 0.5) * 100,
+        (Math.random() - 0.5) * 100,
+        (Math.random() - 0.5) * 100
+    ));
+    fourierMesh.setColorAt(i, _color.setHex(0x00ff88));
 }
 
-window.addEventListener('resize', () =>
-{
-    // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+// ─── Axes Helper ──────────────────────────────────────────────────────────────
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+// ─── Tick / Animate ───────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
 
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    const time = elapsedTime * SPEED_MULT;
 
-/**
- * Camera
- */
-// Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 2
-scene.add(camera)
+    controls.update();
 
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+    // ── Fourier Particle Logic ──────────────────────────────────────────────
+    const harmonics = 7;
+    const baseRadius = 10;
+    const speed = 2.0;
+    const phasorCount = Math.floor(PARTICLE_COUNT * 0.2);
 
-/**
- * Renderer
- */
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const isPhasor = i < phasorCount;
 
-/**
- * Animate
- */
-const clock = new THREE.Clock()
+        if (isPhasor) {
+            // --- Phasor Circles ---
+            const particlesPerHarmonic = Math.floor(phasorCount / harmonics);
+            const harmonicIndex = Math.floor(i / particlesPerHarmonic);
+            const n = 1 + harmonicIndex * 2;
 
-const tick = () =>
-{
-    const elapsedTime = clock.getElapsedTime()
+            let cx = 0, cy = 0;
+            for (let k = 1; k < n; k += 2) {
+                const prevR = baseRadius * (4 / (k * Math.PI));
+                const prevAng = time * speed * k;
+                cx += prevR * Math.cos(prevAng);
+                cy += prevR * Math.sin(prevAng);
+            }
 
-    // Update controls
-    controls.update()
+            const r = baseRadius * (4 / (n * Math.PI));
+            const angle = time * speed * n;
+            const pInGroup = i % particlesPerHarmonic;
 
-    // Render
-    renderer.render(scene, camera)
+            if (pInGroup < particlesPerHarmonic * 0.8) {
+                const theta = (pInGroup / (particlesPerHarmonic * 0.8)) * Math.PI * 2;
+                _target.set(cx + r * Math.cos(theta), cy + r * Math.sin(theta), 0);
+                _color.setHSL(0.1 + harmonicIndex * 0.12, 1.0, 0.5);
+            } else {
+                const progress = (pInGroup - particlesPerHarmonic * 0.8) / (particlesPerHarmonic * 0.2);
+                _target.set(cx + r * Math.cos(angle) * progress, cy + r * Math.sin(angle) * progress, 0);
+                _color.setHex(0xffffff);
+            }
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
-}
+        } else {
+            // --- Waveform Trail ---
+            const trailIndex = i - phasorCount;
+            const trailTotal = PARTICLE_COUNT - phasorCount;
+            const pct = trailIndex / trailTotal;
 
-tick()
+            const xOffset = 10;
+            const waveLength = 100;
+            const t_delayed = time - pct * 4.0;
+
+            let sumY = 0;
+            for (let h = 0; h < harmonics; h++) {
+                const nh = 1 + h * 2;
+                const amp = baseRadius * (4 / (nh * Math.PI));
+                sumY += amp * Math.sin(nh * t_delayed * speed);
+            }
+
+            _target.set(
+                xOffset + pct * waveLength,
+                sumY,
+                Math.sin(pct * 20 + time) * 3
+            );
+
+            const hue = 0.6 - pct * 0.4;
+            const light = 0.5 + (Math.abs(sumY) / baseRadius) * 0.2;
+            _color.setHSL(hue, 0.9, light);
+        }
+
+        // Lerp position and update instanced mesh
+        particlePositions[i].lerp(_target, 0.1);
+        _dummy.position.copy(particlePositions[i]);
+        _dummy.updateMatrix();
+        fourierMesh.setMatrixAt(i, _dummy.matrix);
+        fourierMesh.setColorAt(i, _color);
+    }
+
+    fourierMesh.instanceMatrix.needsUpdate = true;
+    fourierMesh.instanceColor.needsUpdate = true;
+
+    // Use bloom composer instead of raw renderer.render()
+    composer.render();
+
+    window.requestAnimationFrame(tick);
+};
+
+tick();
