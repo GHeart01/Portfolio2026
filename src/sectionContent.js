@@ -28,7 +28,7 @@ export const content = [
   },
   {
     title: 'Experience',
-    body:  'RLHF Engineer at Handshake. Applied ML research with a focus on ' +
+    body:  'AI Trainer Handshake. Applied ML research with a focus on ' +
            'human feedback pipelines and reward modeling.',
   },
   {
@@ -49,7 +49,7 @@ export const content = [
   {
     title: 'Education',
     body:  'MS Computer Science — CU Boulder (GPA 3.9)<br>' +
-           'Specialization: Machine Learning & AI',
+           'Specialization: Machine Learning & AI, Data mining, Network Systems',
   },
   {
     title: 'Research',
