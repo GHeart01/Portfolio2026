@@ -37,42 +37,42 @@ console.log(`%c${socials}`, `color: #00ffcc; font-weight: bold; font-family: mon
 // console.log('Geralt');
 
 
-// ─── About Me Panel ───────────────────────────────────────────────────────────
+// // ─── About Me Panel ───────────────────────────────────────────────────────────
 const aboutPanel = document.createElement('div');
-aboutPanel.style.cssText = `
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(100%);
-    width: min(600px, 90vw);
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 255, 136, 0.3);
-    border-bottom: none;
-    border-radius: 16px 16px 0 0;
-    color: white;
-    font-family: helvetica, arial, sans-serif;
-    padding: 32px;
-    z-index: 1000;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+// aboutPanel.style.cssText = `
+//     position: fixed;
+//     bottom: 0;
+//     left: 50%;
+//     transform: translateX(-50%) translateY(100%);
+//     width: min(600px, 90vw);
+//     background: rgba(0, 0, 0, 0.75);
+//     backdrop-filter: blur(12px);
+//     border: 1px solid rgba(0, 255, 136, 0.3);
+//     border-bottom: none;
+//     border-radius: 16px 16px 0 0;
+//     color: white;
+//     font-family: helvetica, arial, sans-serif;
+//     padding: 32px;
+//     z-index: 1000;
+//     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-    cursor: default;
-`;
+//     cursor: default;
+// `;
 
-aboutPanel.innerHTML = `
-    <h2 style="margin: 0 0 12px; font-size: 1.4rem; color: #00ff88; letter-spacing: 0.1em;">ABOUT ME</h2>
-    <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(255,255,255,0.85);">
-        Hi, I'm Geralt — a CS grad student at CU Boulder specializing in machine learning.
-        I build things at the intersection of math, code, and visual systems. 
-    </p>
-    <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(207, 221, 228, 0.85);">
-    This page is still a work in progress, but please come by again to see my progress! 
-    </p>
-    <p style="margin: 0; line-height: 1.7; color: rgba(255,255,255,0.65); font-size: 0.9rem;">
-        Python · TensorFlow · Three.js · RLHF · Applied Mathematics
-    </p>
+// aboutPanel.innerHTML = `
+//     <h2 style="margin: 0 0 12px; font-size: 1.4rem; color: #00ff88; letter-spacing: 0.1em;">ABOUT ME</h2>
+//     <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(255,255,255,0.85);">
+//         Hi, I'm Geralt — a CS grad student at CU Boulder specializing in machine learning.
+//         I build things at the intersection of math, code, and visual systems. 
+//     </p>
+//     <p style="margin: 0 0 12px; line-height: 1.7; color: rgba(207, 221, 228, 0.85);">
+//     This page is still a work in progress, but please come by again to see my progress! 
+//     </p>
+//     <p style="margin: 0; line-height: 1.7; color: rgba(255,255,255,0.65); font-size: 0.9rem;">
+//         Python · TensorFlow · Three.js · RLHF · Applied Mathematics
+//     </p>
 
-`;
+// `;
 
 document.body.appendChild(aboutPanel);
 
@@ -127,6 +127,46 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.03;
+controls.enablePan = false;
+controls.enableZoom = true;
+controls.minPolarAngle = Math.PI * 0.25;
+controls.maxPolarAngle = Math.PI * 0.25;
+
+const controlsFolder = gui.addFolder('Camera Constraints');
+
+const controlSettings = {
+    damping: true,
+    pan: false,
+    zoom: true,
+    minAngle: 45,
+    maxAngle: 45
+};
+
+// Toggle Damping
+controlsFolder.add(controlSettings, 'damping').name('Enable Damping').onChange((value) => {
+    controls.enableDamping = value;
+});
+
+// Toggle Pan
+controlsFolder.add(controlSettings, 'pan').name('Enable Pan').onChange((value) => {
+    controls.enablePan = value;
+});
+
+// Toggle Zoom
+controlsFolder.add(controlSettings, 'zoom').name('Enable Zoom').onChange((value) => {
+    controls.enableZoom = value;
+});
+
+// Min Angle Slider
+controlsFolder.add(controlSettings, 'minAngle', 0, 180).name('Min Polar Angle').onChange((value) => {
+    controls.minPolarAngle = (value * Math.PI) / 180;
+});
+
+// Max Angle Slider
+controlsFolder.add(controlSettings, 'maxAngle', 0, 180).name('Max Polar Angle').onChange((value) => {
+    controls.maxPolarAngle = (value * Math.PI) / 180;
+});
+
 
 // ─── Renderer ─────────────────────────────────────────────────────────────────
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
