@@ -2,8 +2,7 @@
  * 3D_Figures/Galaxy.js
  *
  * Creates a barred spiral galaxy as a Three.js Points object and adds it to
- * the provided scene. THREE is passed in — never imported here — so there is
- * only ever one Three.js instance in the bundle.
+ * the provided scene. 
  *
  * Usage in script.js:
  *

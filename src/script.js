@@ -6,7 +6,6 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import GUI from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
-
 import { Timer } from 'three/addons/misc/Timer.js' 
 
 // ─── Node Figure ───────────────────────────────────────────────────────────────
@@ -14,7 +13,7 @@ import { createGalaxy } from './3D_Figures/Galaxy.js';
 
 
 // ─── Camera lock ───────────────────────────────────────────────────────────────
-import { initScrollLock } from './scrollLock.js';
+import { initScrollLock, setScrollLock } from './scrollLock.js';
 
 // ─── Easter Egg ───────────────────────────────────────────────────────────────
 const brand = `
@@ -141,7 +140,7 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.03;
 controls.enablePan = false;
-controls.enableZoom = true;
+controls.enableZoom = false;
 controls.minPolarAngle = Math.PI * 0.25;
 controls.maxPolarAngle = Math.PI * 0.25;
 
@@ -150,7 +149,7 @@ const controlsFolder = gui.addFolder('Camera Constraints');
 const controlSettings = {
     damping: true,
     pan: false,
-    zoom: true,
+    zoom: false,
     minAngle: 45,
     maxAngle: 45
 };

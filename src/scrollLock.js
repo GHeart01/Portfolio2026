@@ -1,6 +1,5 @@
 import { content } from './sectionContent.js';
 import gsap from 'gsap';
-import * as THREE from 'three';
 
 const sections = [
   { angle: 0,              y: 2  },
@@ -271,6 +270,11 @@ const panel = document.createElement('div');
 panel.id = 'hud-panel';
 document.body.appendChild(panel);
 
+export let scrollLockEnabled = true;
+export function setScrollLock(enabled) {
+  scrollLockEnabled = enabled;
+}
+
 // ─── Render helpers ───────────────────────────────────────────────────────────
 
 function renderPanel(index) {
@@ -321,13 +325,19 @@ function showPanel(index) {
 
 //   clearTimeout(dismissTimer);
 //   dismissTimer = setTimeout(hidePanel, PANEL_DISPLAY_MS);
+
 }
 
 function hidePanel() {
-//   clearTimeout(dismissTimer);
+  clearTimeout(dismissTimer);
   panel.classList.remove('visible');
   panel.classList.add('hiding');
 }
+
+// Hide any panel by tapping it
+panel.addEventListener('click', hidePanel);
+
+
 
 // ─── Scroll-lock core ─────────────────────────────────────────────────────────
 
@@ -336,6 +346,8 @@ export function initScrollLock(camera, scene) {
     angle: sections[0].angle,
     y:     sections[0].y,
   };
+
+  setTimeout(() => showPanel(0), 700);  // prevent overscrolling
 
   camera.position.set(
     Math.sin(proxy.angle) * ORBIT_RADIUS,
@@ -348,6 +360,7 @@ export function initScrollLock(camera, scene) {
   setTimeout(() => showPanel(0), 700);
 
   function goTo(i) {
+    if (!scrollLockEnabled) return;
     if (locked || i < 0 || i >= sections.length) return;
     locked  = true;
     current = i;
