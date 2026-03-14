@@ -43,7 +43,7 @@ export const content = [
     body:  'This portfolio is built with Three.js — particle simulations, ' +
            '3D text, Fourier transform visualizations, and a galaxy renderer.',
     links: [
-      { label: 'View source', url: 'https://github.com/GHeart01' },
+      { label: 'View source', url: 'https://github.com/GHeart01/Portfolio2026' },
     ],
   },
   {
