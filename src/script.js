@@ -160,7 +160,7 @@ controlsFolder.add(controlSettings, 'damping').name('Enable Damping').onChange((
 });
 
 // Toggle Pan
-controlsFolder.add(controlSettings, 'pan').name('Enable Pan').onChange((value) => {
+controlsFolder.add(controlSettings, 'pan').name('Enable Pan (right click and drag)').onChange((value) => {
     controls.enablePan = value;
 });
 

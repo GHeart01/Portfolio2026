@@ -15,6 +15,8 @@ export const content = [
   {
     title: "Welcome, I'm Geralt",
     body:  'Scroll down to explore the galaxy and learn more about me.',
+    body: 'Click here to hide'
+
   },
   {
     title: 'About Me',
