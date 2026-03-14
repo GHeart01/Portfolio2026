@@ -74,7 +74,7 @@ export const content = [
     title: 'Contact',
     body:  "Thanks for visiting. Let's build something together.",
     links: [
-      { label: 'emailme@geraltheart.com, url: 'mailto:emailme@geraltheart.com' },
+      { label: 'emailme@geraltheart.com', url: 'mailto: emailme@geraltheart.com' },
       { label: 'GitHub',                  url: 'https://github.com/GHeart01' },
       { label: 'LinkedIn',                url: 'https://www.linkedin.com/in/geraltheart001' },
     ],
