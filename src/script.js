@@ -18,19 +18,32 @@ import { initScrollLock } from './scrollLock.js';
 
 // ─── Easter Egg ───────────────────────────────────────────────────────────────
 const brand = `
-██╗  ██╗███████╗ █████╗ ██████╗ ████████╗
-██║  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝
-███████║█████╗  ███████║██████╔╝   ██║   
-██╔══██║██╔══╝  ██╔══██║██╔══██╗   ██║   
-██║  ██║███████╗██║  ██║██║  ██║   ██║   
-╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+  ██████╗ ███████╗ ██████╗   █████╗  ██╗ ████████╗  ██╗  ██╗███████╗ █████╗ ██████╗ ████████╗
+██ ╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ╚══██╔══╝  ██║  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝
+██ ║████╗ █████╗   ██████╔╝ ███████║ ██║    ██║     ███████║█████╗  ███████║██████╔╝   ██║   
+██ ╚══██║ ██╔══╝   ██╔══██╗ ██╔══██║ ██╚══╗ ██║     ██╔══██║██╔══╝  ██╔══██║██╔══██╗   ██║   
+╔███████║ ███████╗ ██║  ██║ ██║  ██║ █████║ ██║     ██║  ██║███████╗██║  ██║██║  ██║   ██║   
+╚═══════╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
 `;
 console.log(`%c${brand}`, `color: #00ffcc; font-weight: bold; font-family: monospace; line-height: 1.2;`);
 const socials = `
+╔═ Hello Developer :) ═══════════════╗
+║ If you found this page send me a message at my email and I'll respond!
+╚═══════════════════════╝
+
 ╔═ Socials ═══════════════╗
 ║ Mail           ⇒ geraltheart01@gmail.com
 ║ GitHub         ⇒ https://github.com/GHeart01
 ║ LinkedIn       ⇒ https://www.linkedin.com/in/geraltheart001
+╚═══════════════════════╝
+
+╔═ Debug ═══════════════╗
+║ You can access the debug mode by pressing 'h'
+╚═══════════════════════╝
+
+╔═ Source code ═════════╗
+║ The code for this portfolio is available on GitHub 
+║ https://github.com/GHeart01/Portfolio2026
 ╚═══════════════════════╝
 `;
 console.log(`%c${socials}`, `color: #00ffcc; font-weight: bold; font-family: monospace; line-height: 1.2;`);
@@ -79,7 +92,7 @@ document.body.appendChild(aboutPanel);
 // Trigger slide-up after a short delay
 setTimeout(() => {
     aboutPanel.style.transform = 'translateX(-50%) translateY(0%)';
-}, 100);
+}, 500);
 
 // ─── Overlay ──────────────────────────────────────────────────────────────────
 // const overlay = document.createElement('div');

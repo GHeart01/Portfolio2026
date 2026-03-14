@@ -13,7 +13,7 @@
 
 export const content = [
   {
-    title: 'Welcome',
+    title: "Welcome, I'm Geralt",
     body:  'Scroll down to explore the galaxy and learn more about me.',
   },
   {
@@ -33,8 +33,10 @@ export const content = [
   },
   {
     title: 'Skills',
-    body:  'Python · TensorFlow · PyTorch · Three.js · SQL · Snowflake · ' +
-           'Microsoft Fabric · Power BI · Applied Mathematics',
+    body:  'Python · SQL · C++ · JavaScript · MATLAB' +
+           'Numpy· Pandas · Scikit-learn · Keras · PyTorch' +
+           'React, pytest, Three.JS, GSAP' + 
+           'AWS Lightsail, Docker, Kubernetes'
   },
   {
     title: 'Projects',
