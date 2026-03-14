@@ -7,6 +7,15 @@ import GUI from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
+import { Timer } from 'three/addons/misc/Timer.js' 
+
+// ─── Node Figure ───────────────────────────────────────────────────────────────
+import { createGalaxy } from './3D_Figures/Galaxy.js';
+
+
+// ─── Camera lock ───────────────────────────────────────────────────────────────
+import { initScrollLock } from './scrollLock.js';
+
 // ─── Easter Egg ───────────────────────────────────────────────────────────────
 const brand = `
 ██╗  ██╗███████╗ █████╗ ██████╗ ████████╗
@@ -46,6 +55,7 @@ aboutPanel.style.cssText = `
     padding: 32px;
     z-index: 1000;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
     cursor: default;
 `;
 
@@ -69,7 +79,7 @@ document.body.appendChild(aboutPanel);
 // Trigger slide-up after a short delay
 setTimeout(() => {
     aboutPanel.style.transform = 'translateX(-50%) translateY(0%)';
-}, 800);
+}, 100);
 
 // ─── Overlay ──────────────────────────────────────────────────────────────────
 // const overlay = document.createElement('div');
@@ -109,11 +119,14 @@ window.addEventListener('resize', () => {
 
 // ─── Camera ───────────────────────────────────────────────────────────────────
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(0.5, 1, 1.5);
+camera.position.set(1, 0.5, 0);
+// init scroll lock and pass in your camera
+initScrollLock(camera, scene);
 scene.add(camera);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.dampingFactor = 0.03;
 
 // ─── Renderer ─────────────────────────────────────────────────────────────────
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -127,7 +140,7 @@ const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(sizes.width, sizes.height),
     1.5, 0.4, 0.85
 );
-bloomPass.strength = 1.8;
+bloomPass.strength = .4;
 bloomPass.radius = 0.4;
 bloomPass.threshold = 0;
 composer.addPass(bloomPass);
@@ -143,101 +156,30 @@ heartmatcapTexture.colorSpace = THREE.SRGBColorSpace;
 const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
 
-// ─── Fonts + Text + Hearts ────────────────────────────────────────────────────
-const fontLoader = new FontLoader();
-fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
-    const textGeometry = new TextGeometry('Geralt \n Heart', {
-        font,
-        size: 0.5,
-        depth: 0.2,
-        curveSegments: 5,
-        bevelEnabled: true,
-        bevelThickness: 0.03,
-        bevelSize: 0.02,
-        bevelOffset: 0,
-        bevelSegments: 3
-    });
-    textGeometry.center();
+// ───  Ground Layer ────────────────────────────────────────────────────
+// const ground = new THREE.Mesh(
+//     new THREE.PlaneGeometry(1,1),
+//     new THREE.MeshPhysicalMaterial({color: 0x888888})
+// )
+for (let i = -20; i < 20; i ++){
+    for (let j = -20; j < 20; j++){
 
-    const material = new THREE.MeshMatcapMaterial({ 
-    matcap: matcapTexture,
-    color: 0x888888  // grey tint darkens it; lower hex = darker
-})
+        const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(1,1),
+        new THREE.MeshPhysicalMaterial({color: 0x888888})
+    )
+        const spacing = 1.01
+        ground.position.x = i *spacing
+        ground.position.z = j * spacing +0.05
 
-//     const material = new THREE.MeshStandardMaterial({
-//     color: 0xffffff,
-//     roughness: 0.6,   // 0 = mirror, 1 = fully matte
-//     metalness: 0.2    // 0 = plastic, 1 = full metal
-// })
-    const text = new THREE.Mesh(textGeometry, material);
-    scene.add(text);
-
-    // Heart shape
-    const heartShape = new THREE.Shape();
-    heartShape.moveTo(0, 0);
-    heartShape.bezierCurveTo(0, 0, -1, -1, -2, 0);
-    heartShape.bezierCurveTo(-3, 1.5, -1.5, 3.5, 0, 4);
-    heartShape.bezierCurveTo(1.5, 3.5, 3, 1.5, 2, 0);
-    heartShape.bezierCurveTo(1, -1, 0, 0, 0, 0);
-
-    const extrudeSettings = {
-        depth: 0.1, bevelEnabled: true, bevelSegments: 10,
-        steps: 3, bevelSize: 0.1, bevelThickness: 0.05
-    };
-    const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-    const heartMaterial = new THREE.MeshMatcapMaterial({ matcap: heartmatcapTexture });
-    heartGeometry.center();
-
-    const heart = new THREE.Mesh(heartGeometry, heartMaterial);
-    heart.position.y = -1.5;
-    
-    heart.scale.set(0.1, 0.1, 0.1);
-    scene.add(heart);
-
-    for (let i = 0; i < 100; i++) {
-        const h = new THREE.Mesh(heartGeometry, heartMaterial);
-        h.position.set(
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10
-        );
-        h.rotation.x = Math.random() * Math.PI;
-        h.rotation.y = Math.random() * Math.PI;
-        const scaler = Math.random() * 0.1;
-        h.position.z = -5 * Math.random()
-        h.scale.set(scaler, scaler, scaler);
-        scene.add(h);
+        ground.rotation.x = - Math.PI / 2
+        // scene.add(ground)
     }
-});
-
-// ─── Fourier Particle Swarm ───────────────────────────────────────────────────
-const PARTICLE_COUNT = 5000;
-const SPEED_MULT = 0.2;
-
-const fourierGeo = new THREE.TetrahedronGeometry(0.25);
-const fourierMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-const fourierMesh = new THREE.InstancedMesh(fourierGeo, fourierMat, PARTICLE_COUNT);
-fourierMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-
-// Place the Fourier swarm slightly behind the main scene so it doesn't clash
-fourierMesh.position.z = -5;
-
-scene.add(fourierMesh);
-
-// Pre-allocate per-particle state
-const particlePositions = [];
-const _dummy = new THREE.Object3D();
-const _target = new THREE.Vector3();
-const _color = new THREE.Color();
-
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particlePositions.push(new THREE.Vector3(
-        (Math.random() - 0.5) * 100,
-        (Math.random() - 0.5) * 100,
-        (Math.random() - 0.5) * 100
-    ));
-    fourierMesh.setColorAt(i, _color.setHex(0x00ff88));
 }
+
+// Node module
+const galaxyUpdate = createGalaxy(scene, THREE);
+
 
 // ─── Axes Helper ──────────────────────────────────────────────────────────────
 const axesHelper = new THREE.AxesHelper();
@@ -245,90 +187,19 @@ scene.add(axesHelper);
 axesHelper.visible = false
 
 // ─── Tick / Animate ───────────────────────────────────────────────────────────
-const clock = new THREE.Clock();
+const timer = new Timer()
 
-const tick = () => {
-    const elapsedTime = clock.getElapsedTime();
-    const time = elapsedTime * SPEED_MULT;
+const tick = () =>
+{
+    // Timer
+    timer.update()
+    const elapsedTime = timer.getElapsed() // now must be updated manually
+    // console.log(elapsedTime)
 
     controls.update();
 
-    // ── Fourier Particle Logic ──────────────────────────────────────────────
-    const harmonics = 7;
-    const baseRadius = 10;
-    const speed = 2.0;
-    const phasorCount = Math.floor(PARTICLE_COUNT * 0.2);
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const isPhasor = i < phasorCount;
-
-        if (isPhasor) {
-            // --- Phasor Circles ---
-            const particlesPerHarmonic = Math.floor(phasorCount / harmonics);
-            const harmonicIndex = Math.floor(i / particlesPerHarmonic);
-            const n = 1 + harmonicIndex * 2;
-
-            let cx = 0, cy = 0;
-            for (let k = 1; k < n; k += 2) {
-                const prevR = baseRadius * (4 / (k * Math.PI));
-                const prevAng = time * speed * k;
-                cx += prevR * Math.cos(prevAng);
-                cy += prevR * Math.sin(prevAng);
-            }
-
-            const r = baseRadius * (4 / (n * Math.PI));
-            const angle = time * speed * n;
-            const pInGroup = i % particlesPerHarmonic;
-
-            if (pInGroup < particlesPerHarmonic * 0.8) {
-                const theta = (pInGroup / (particlesPerHarmonic * 0.8)) * Math.PI * 2;
-                _target.set(cx + r * Math.cos(theta), cy + r * Math.sin(theta), 0);
-                _color.setHSL(0.1 + harmonicIndex * 0.12, 1.0, 0.5);
-            } else {
-                const progress = (pInGroup - particlesPerHarmonic * 0.8) / (particlesPerHarmonic * 0.2);
-                _target.set(cx + r * Math.cos(angle) * progress, cy + r * Math.sin(angle) * progress, 0);
-                _color.setHex(0xffffff);
-            }
-
-        } else {
-            // --- Waveform Trail ---
-            const trailIndex = i - phasorCount;
-            const trailTotal = PARTICLE_COUNT - phasorCount;
-            const pct = trailIndex / trailTotal;
-
-            const xOffset = 10;
-            const waveLength = 100;
-            const t_delayed = time - pct * 4.0;
-
-            let sumY = 0;
-            for (let h = 0; h < harmonics; h++) {
-                const nh = 1 + h * 2;
-                const amp = baseRadius * (4 / (nh * Math.PI));
-                sumY += amp * Math.sin(nh * t_delayed * speed);
-            }
-
-            _target.set(
-                xOffset + pct * waveLength,
-                sumY,
-                Math.sin(pct * 20 + time) * 3
-            );
-
-            const hue = 0.6 - pct * 0.4;
-            const light = 0.5 + (Math.abs(sumY) / baseRadius) * 0.2;
-            _color.setHSL(hue, 0.9, light);
-        }
-
-        // Lerp position and update instanced mesh
-        particlePositions[i].lerp(_target, 0.1);
-        _dummy.position.copy(particlePositions[i]);
-        _dummy.updateMatrix();
-        fourierMesh.setMatrixAt(i, _dummy.matrix);
-        fourierMesh.setColorAt(i, _color);
-    }
-
-    fourierMesh.instanceMatrix.needsUpdate = true;
-    fourierMesh.instanceColor.needsUpdate = true;
-
+    galaxyUpdate(elapsedTime); 
+    
     // Use bloom composer instead of raw renderer.render()
     composer.render();
 
