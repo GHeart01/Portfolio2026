@@ -61,7 +61,7 @@ export const content = [
     body:  'Open to ML/AI Engineer and Data Science roles.<br>' +
            'Based in Austin, TX.',
     links: [
-      { label: 'Email me', url: 'mailto:geraltheart01@gmail.com' },
+      { label: 'Email me', url: 'mailto:emailme@geraltheart.com' },
     ],
   },
   {
@@ -74,7 +74,7 @@ export const content = [
     title: 'Contact',
     body:  "Thanks for visiting. Let's build something together.",
     links: [
-      { label: 'geraltheart01@gmail.com', url: 'mailto:geraltheart01@gmail.com' },
+      { label: 'emailme@geraltheart.com, url: 'mailto:emailme@geraltheart.com' },
       { label: 'GitHub',                  url: 'https://github.com/GHeart01' },
       { label: 'LinkedIn',                url: 'https://www.linkedin.com/in/geraltheart001' },
     ],

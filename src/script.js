@@ -32,7 +32,7 @@ const socials = `
 ╚═══════════════════════╝
 
 ╔═ Socials ═══════════════╗
-║ Mail           ⇒ geraltheart01@gmail.com
+║ Mail           ⇒ emailme@geraltheart.com
 ║ GitHub         ⇒ https://github.com/GHeart01
 ║ LinkedIn       ⇒ https://www.linkedin.com/in/geraltheart001
 ╚═══════════════════════╝
