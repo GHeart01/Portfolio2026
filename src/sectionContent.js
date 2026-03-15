@@ -35,9 +35,9 @@ export const content = [
   },
   {
     title: 'Skills',
-    body:  'Python · SQL · C++ · JavaScript · MATLAB' +
-           'Numpy · Pandas · Scikit-learn · Keras · PyTorch' +
-           'React · pytest · Three.JS · GSAP' + 
+    body:  'Python · SQL · C++ · JavaScript · MATLAB ·' +
+           'Numpy · Pandas · Scikit-learn · Keras · PyTorch ·' +
+           'React · pytest · Three.JS · GSAP ·' + 
            'AWS Lightsail · Docker · Kubernetes'
   },
   {
