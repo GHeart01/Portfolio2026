@@ -73,9 +73,10 @@ export const content = [
   },
   {
     title: 'Education',
-    body:  'MS Computer Science — CU Boulder | GPA 3.9<br>' +
-           'Specialization: Machine Learning & AI, Data mining, Network Systems<br>'+
-           'BS Applied Mathematics — UT Rio Grande Valley | GPA 3.5<br>' +
+    body:  '&nbsp&nbsp&nbsp&nbspMS Computer Science — CU Boulder | GPA 3.9<br>' +
+           'Specialization: Machine Learning & AI, ' + 
+           'Data mining, Network Systems<br>'+
+           '&nbsp&nbsp&nbsp&nbspBS Applied Mathematics — UT Rio Grande Valley | GPA 3.5<br>' +
            'Specialization: Fourier Series, Number Theory, Statistics',
   },
   {
