@@ -15,12 +15,13 @@ export const content = [
   {
     title: "Welcome, I'm Geralt",
     body:  'Scroll down to explore the galaxy and learn more about me.',
-    body: 'Click here to hide'
+    body: 'Click here to hide',
+
 
   },
   {
     title: 'About Me',
-    body:  `I'm Geralt — a CS grad student at CU Boulder specializing in
+    body:  `I'm Geralt — CS grad student at CU Boulder specializing in
             machine learning and AI. I build things at the intersection of
             math, code, and visual systems.`,
     links: [
@@ -30,28 +31,52 @@ export const content = [
   },
   {
     title: 'Experience',
-    body:  'AI Trainer Handshake. Applied ML research with a focus on ' +
-           'human feedback pipelines and reward modeling.',
+    body:  'AI Trainer Handshake - Feb 2026' + 
+           '<br>' +
+           'Applied ML research with a focus on ' +
+           'human feedback pipelines and reward modeling.\n' +
+           '<br>' +
+           'Teaching 2018 - 2026'
   },
   {
     title: 'Skills',
-    body:  'Python · SQL · C++ · JavaScript · MATLAB ·' +
-           'Numpy · Pandas · Scikit-learn · Keras · PyTorch ·' +
-           'React · pytest · Three.JS · GSAP ·' + 
+    body: '',
+    body:  'Python · SQL · C++ · JavaScript · MATLAB' +
+           '<br>' +
+           'Numpy · Pandas · pytest · Scikit-learn · Keras · PyTorch' +
+           '<br>' +
+           'React · Three.JS · GSAP' +
+           '<br>' + 
            'AWS Lightsail · Docker · Kubernetes'
   },
   {
     title: 'Projects',
-    body:  'This portfolio is built with Three.js — particle simulations, ' +
-           '3D text, Fourier transform visualizations, and a galaxy renderer.',
+    body:  'Web Scraper - ' +
+          '<br>' +
+           'Python JSON SQL BeautifulSoup' +
+           '<br>' +
+
+           'MIMO - Fourier Series Radar System Study' +
+            '<br>' +
+           ' MATLAB' +
+           '<br>' +
+    
+           'This Portfolio - '  + 
+            '<br>' +
+            'ThreeJS, Vite, React, and GSAP',
     links: [
+      { label: 'Web Scraper', url: 'https://github.com/GHeart01/Web-Scraper-Clothing' },
+      { label: 'MIMO', url: 'https://github.com/GHeart01/Multi-Input-Multi-Output-Radar-System-Study' },
       { label: 'View source', url: 'https://github.com/GHeart01/Portfolio2026' },
+
     ],
   },
   {
     title: 'Education',
-    body:  'MS Computer Science — CU Boulder (GPA 3.9)<br>' +
-           'Specialization: Machine Learning & AI, Data mining, Network Systems',
+    body:  'MS Computer Science — CU Boulder | GPA 3.9<br>' +
+           'Specialization: Machine Learning & AI, Data mining, Network Systems<br>'+
+           'BS Applied Mathematics — UT Rio Grande Valley | GPA 3.5<br>' +
+           'Specialization: Fourier Series, Number Theory, Statistics',
   },
   {
     title: 'Research',
@@ -60,7 +85,8 @@ export const content = [
   },
   {
     title: 'Currently',
-    body:  'Open to ML/AI Engineer and Data Science roles.<br>' +
+    body:  'AI Trainer for Handshake' +
+           'Open to ML/AI Engineer and Data Science roles.<br>' +
            'Based in Austin, TX.',
     links: [
       { label: 'Email me', url: 'mailto:emailme@geraltheart.com' },
@@ -69,8 +95,8 @@ export const content = [
   {
     title: 'The Galaxy',
     body:  'A barred spiral galaxy — 20,000 particles, exponential disk ' +
-           'distribution, differential rotation, and stellar color grading ' +
-           'from blue-white core to red-dwarf rim.',
+           'distribution, differential rotation, and stellar color grading. <br> ' +
+           'Utilized buffer geometry to reduce vertices',
   },
   {
     title: 'Contact',

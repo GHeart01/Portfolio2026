@@ -102,14 +102,40 @@ export function createGalaxy(scene, THREE) {
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
 
-  // ── Material ──────────────────────────────────────────────────────────────
-  const material = new THREE.PointsMaterial({
-    size:         0.15,
-    sizeAttenuation: true,
-    vertexColors: true,
-    depthWrite:   false,
-    blending:     THREE.AdditiveBlending,
-  });
+// ── Texture (circle) ──────────────────────────────────────────────────────
+const canvas = document.createElement('canvas');
+canvas.width  = 64;
+canvas.height = 64;
+const ctx = canvas.getContext('2d');
+const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+gradient.addColorStop(0,   'rgba(255,255,255,1)');
+gradient.addColorStop(0.4, 'rgba(255,255,255,0.8)');
+gradient.addColorStop(1,   'rgba(255,255,255,0)');
+ctx.fillStyle = gradient;
+ctx.beginPath();
+ctx.arc(32, 32, 32, 0, Math.PI * 2);
+ctx.fill();
+const circleTexture = new THREE.CanvasTexture(canvas);
+
+// ── Material ──────────────────────────────────────────────────────────────
+const material = new THREE.PointsMaterial({
+  size:            0.15,
+  sizeAttenuation: true,
+  vertexColors:    true,
+  depthWrite:      false,
+  blending:        THREE.AdditiveBlending,
+  map:             circleTexture,
+  alphaTest:       0.001,
+  transparent:     true,
+});
+  // // ── Material ──────────────────────────────────────────────────────────────
+  // const material = new THREE.PointsMaterial({
+  //   size:         0.15,
+  //   sizeAttenuation: true,
+  //   vertexColors: true,
+  //   depthWrite:   false,
+  //   blending:     THREE.AdditiveBlending,
+  // });
 
   // ── Mesh ──────────────────────────────────────────────────────────────────
   const points = new THREE.Points(geometry, material);
