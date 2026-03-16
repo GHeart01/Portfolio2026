@@ -1,14 +1,12 @@
 /**
  * sectionContent.js
  *
- * Edit this file to change what appears in the HUD panel on each scroll step.
- * Entries map 1-to-1 with the sections array in scrollLock.js (index 0 = first stop).
- *
- * Fields (all optional except you need at least one to show anything):
- *   title  {string}              — large green heading
- *   body   {string}              — paragraph text, HTML tags allowed
- *   image  {string}              — path or URL to an image
- *   links  {Array<{label, url}>} — clickable link pills
+ * {
+ *   title  {string}             
+ *   body   {string}              
+ *   image  {string}             
+ *   links  {Array<{label, url}>} 
+ * },
  */
 
 export const content = [
@@ -86,7 +84,8 @@ export const content = [
   },
   {
     title: 'Currently',
-    body:  'AI Trainer for Handshake' +
+    body:  'AI Trainer for Handshake' + 
+           '<br>' +
            'Open to ML/AI Engineer and Data Science roles.<br>' +
            'Based in Austin, TX.',
     links: [
