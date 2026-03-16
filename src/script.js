@@ -108,9 +108,13 @@ controlsFolder.add(controlSettings, 'maxAngle', 0, 180).name('Max Polar Angle').
 
 
 // ─── Renderer ─────────────────────────────────────────────────────────────────
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, 
+    powerPreference: 'high-performance',
+    // preserveDrawingBuffer: true
+ });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
 
 // ─── Post-Processing (Bloom) ──────────────────────────────────────────────────
 const composer = new EffectComposer(renderer);
@@ -184,5 +188,23 @@ const tick = () =>
 
     window.requestAnimationFrame(tick);
 };
-
 tick();
+// preview image gen
+// setTimeout(() => {
+//     renderer.setSize(1200, 630);
+//     camera.aspect = 1200 / 630;
+//     camera.updateProjectionMatrix();
+//     composer.setSize(1200, 630);
+
+//     composer.render();
+
+//     const link = document.createElement('a');
+//     link.download = 'preview.png';
+//     link.href = renderer.domElement.toDataURL('image/png');
+//     link.click();
+
+//     renderer.setSize(sizes.width, sizes.height);
+//     camera.aspect = sizes.width / sizes.height;
+//     camera.updateProjectionMatrix();
+//     composer.setSize(sizes.width, sizes.height);
+// }, 2000);
