@@ -14,7 +14,7 @@ import { createGalaxy } from './3D_Figures/Galaxy.js';
 // ─── Camera lock ───────────────────────────────────────────────────────────────
 import { initScrollLock, setScrollLock } from './scrollLock.js';
 
-easterEgg()
+easterEgg();
 // console.log('Geralt');
 
 
