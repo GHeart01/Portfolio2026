@@ -100,7 +100,9 @@ export const content = [
   },
   {
     title: 'Contact',
-    body:  "Thanks for visiting. Let's build something together.",
+    body:  "Thanks for visiting. Let's build something together." + 
+           'br' +
+           'Check out the console in the developer tools for an easter egg!🥚',
     links: [
       { label: 'emailme@geraltheart.com', url: 'mailto: emailme@geraltheart.com' },
       { label: 'GitHub',                  url: 'https://github.com/GHeart01' },
