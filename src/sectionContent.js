@@ -101,7 +101,7 @@ export const content = [
   {
     title: 'Contact',
     body:  "Thanks for visiting. Let's build something together." + 
-           'br' +
+           '<br>' +
            'Check out the console in the developer tools for an easter egg!🥚',
     links: [
       { label: 'emailme@geraltheart.com', url: 'mailto: emailme@geraltheart.com' },
