@@ -11,7 +11,7 @@ const sections = [
   { angle: Math.PI * 3.0,  y: 38 },
   { angle: Math.PI * 3.5,  y: 44 },
   { angle: Math.PI * 4.0,  y: 50 },
-  { angle: Math.PI * 4.5,  y: 56 },
+  // { angle: Math.PI * 4.5,  y: 56 },
 
   { angle: 0,              y: 2  },
   { angle: Math.PI * 0.5,  y: 8  },
@@ -22,7 +22,7 @@ const sections = [
   { angle: Math.PI * 3.0,  y: 38 },
   { angle: Math.PI * 3.5,  y: 44 },
   { angle: Math.PI * 4.0,  y: 50 },
-  { angle: Math.PI * 4.5,  y: 56 },
+  // { angle: Math.PI * 4.5,  y: 56 },
 
   { angle: 0,              y: 2  },
   { angle: Math.PI * 0.5,  y: 8  },
@@ -33,7 +33,7 @@ const sections = [
   { angle: Math.PI * 3.0,  y: 38 },
   { angle: Math.PI * 3.5,  y: 44 },
   { angle: Math.PI * 4.0,  y: 50 },
-  { angle: Math.PI * 4.5,  y: 56 },
+  // { angle: Math.PI * 4.5,  y: 56 },
 
   { angle: 0,              y: 2  },
   { angle: Math.PI * 0.5,  y: 8  },
@@ -44,7 +44,7 @@ const sections = [
   { angle: Math.PI * 3.0,  y: 38 },
   { angle: Math.PI * 3.5,  y: 44 },
   { angle: Math.PI * 4.0,  y: 50 },
-  { angle: Math.PI * 4.5,  y: 56 },
+  // { angle: Math.PI * 4.5,  y: 56 },
 ];
 
 const ORBIT_RADIUS     = 10;

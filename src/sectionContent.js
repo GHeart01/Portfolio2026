@@ -29,7 +29,13 @@ export const content = [
   },
   {
     title: 'Experience',
-    body:  'AI Trainer Handshake - Feb 2026' + 
+    body:  'Software Engineer Intern - Athena Manufacturing - May 2026' + 
+           '<br>' +
+           'Devops, Database Management, Web Development' +
+           'Building webapps for montioring tool performance and worker execution\n' +
+           '<br>' +
+
+           'AI Trainer - Handshake - Feb 2026' + 
            '<br>' +
            'Applied ML research with a focus on ' +
            'human feedback pipelines and reward modeling.\n' +
@@ -41,7 +47,7 @@ export const content = [
     body: '',
     body:  'Python · SQL · C++ · JavaScript · MATLAB' +
            '<br>' +
-           'Numpy · Pandas · pytest · Scikit-learn · Keras · PyTorch' +
+           'Numpy · Pandas · pytest · Scikit-learn · Keras · TensorFlow' +
            '<br>' +
            'React · Three.JS · GSAP' +
            '<br>' + 
@@ -82,16 +88,16 @@ export const content = [
     body:  'Interested in reinforcement learning from human feedback, ' +
            'generative models, and the mathematics of neural networks.',
   },
-  {
-    title: 'Currently',
-    body:  'AI Trainer for Handshake' + 
-           '<br>' +
-           'Open to ML/AI Engineer and Data Science roles.<br>' +
-           'Based in Austin, TX.',
-    links: [
-      { label: 'Email me', url: 'mailto:emailme@geraltheart.com' },
-    ],
-  },
+  // {
+  //   title: 'Currently',
+  //   body:  'AI Trainer for Handshake' + 
+  //          '<br>' +
+  //          'Open to ML/AI Engineer and Data Science roles.<br>' +
+  //          'Based in Austin, TX.',
+  //   links: [
+  //     { label: 'Email me', url: 'mailto:emailme@geraltheart.com' },
+  //   ],
+  // },
   {
     title: 'The Galaxy',
     body:  'A barred spiral galaxy — 20,000 particles, exponential disk ' +
