@@ -31,7 +31,7 @@ export const content = [
     title: 'Experience',
     body:  'Software Engineer Intern - Athena Manufacturing - May 2026' + 
            '<br>' +
-           'Devops, Database Management, Web Development' +
+           'Devops, Database Management, Web Development.\n' +
            'Building webapps for montioring tool performance and worker execution\n' +
            '<br>' +
 
